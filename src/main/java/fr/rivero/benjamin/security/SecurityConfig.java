@@ -44,7 +44,8 @@ public class SecurityConfig {
 										antMatcher("/swagger-ui/**"),
 										antMatcher("/api/game/last"),
 										antMatcher("/api/game/scores"),
-										antMatcher("/api/map/best")
+										antMatcher("/api/map/best"),
+										antMatcher("/api/round/**")
 								).permitAll()
 								.requestMatchers(
 										antMatcher( "/api/user/**"),

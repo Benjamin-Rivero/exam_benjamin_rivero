@@ -43,7 +43,7 @@ public class Round {
     @JsonView(JsonViewRound.Selected.class)
     private Coordinate selected;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JsonView(JsonViewRound.Origin.class)
     private Coordinate origin;
 

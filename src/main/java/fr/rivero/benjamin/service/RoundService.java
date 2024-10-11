@@ -3,6 +3,7 @@ package fr.rivero.benjamin.service;
 import fr.rivero.benjamin.dto.RoundCreateDto;
 import fr.rivero.benjamin.entity.Coordinate;
 import fr.rivero.benjamin.repository.CoordinateRepository;
+import fr.rivero.benjamin.util.DistanceCalc;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -44,6 +45,19 @@ public class RoundService {
         Round round = new Round();
         round.setGame(gameService.findById(roundCreateDto.getGameid()));
         return round;
+    }
+
+    public Integer calcPoints(Long id){
+        Round round = findById(id);
+        float lat2 = Float.parseFloat(round.getOrigin().getLatitude().replace(",","."));
+        float lat1 = Float.parseFloat(round.getSelected().getLatitude().replace(",","."));
+        float lon2 = Float.parseFloat(round.getOrigin().getLongitude().replace(",","."));
+        float lon1 = Float.parseFloat(round.getSelected().getLongitude().replace(",","."));
+        int distance = (int)Math.ceil(DistanceCalc.distance(lat1,lat2,lon1,lon2));
+        System.out.println(distance);
+        if(distance > 10000000) return 0;
+        if(distance == 0) return 5000;
+        return 5000 - ((distance /10000000)*5000);
     }
 
 }

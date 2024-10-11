@@ -30,11 +30,12 @@ public class GameService {
 
     private Game toEntity(GameCreateDto gameCreateDto) {
         Game game = new Game();
+        game.setMaximumTime(gameCreateDto.getMaximumTime());
         game.setCreatedAt(LocalDateTime.now());
         game.setHasMove(gameCreateDto.getHasMove());
         game.setHasPan(gameCreateDto.getHasPan());
         game.setHasZoom(gameCreateDto.getHasZoom());
-        game.setNbRounds(game.getNbRounds());
+        game.setNbRounds(gameCreateDto.getRounds());
         game.setMap(mapService.findById(gameCreateDto.getMapId()));
         return game;
     }

@@ -6,10 +6,7 @@ import fr.rivero.benjamin.entity.Round;
 import fr.rivero.benjamin.json_views.JsonViewMap;
 import fr.rivero.benjamin.json_views.JsonViewRound;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import fr.rivero.benjamin.service.RoundService;
 
 
@@ -25,6 +22,11 @@ public class RoundController {
     @JsonView(JsonViewRound.RoundShow.class)
     public Round create(@RequestBody RoundCreateDto roundCreateDto){
         return roundService.create(roundCreateDto);
+    }
+
+    @GetMapping("/{round}")
+    public Integer calcPoint(@PathVariable("round") Long id){
+        return roundService.calcPoints(id);
     }
 
 }
