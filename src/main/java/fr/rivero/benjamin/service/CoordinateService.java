@@ -1,6 +1,7 @@
 package fr.rivero.benjamin.service;
 
 import fr.rivero.benjamin.dto.CoordinateCreateDto;
+import fr.rivero.benjamin.entity.embedded.CoordinateId;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,7 +18,7 @@ public class CoordinateService {
 
     private final CoordinateRepository coordinateRepository;
 
-    public Coordinate findById(Long id) {
+    public Coordinate findById(Long /*CoordinateId*/ id) {
         return coordinateRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
@@ -31,6 +32,8 @@ public class CoordinateService {
 
     private Coordinate toEntity(CoordinateCreateDto coordinateCreateDto) {
         Coordinate coordinate = new Coordinate();
+        /*CoordinateId coordinateId = new CoordinateId(coordinate.getLatitude(),coordinateCreateDto.getLongitude());
+        coordinate.setId(coordinateId);*/
         coordinate.setLatitude(coordinateCreateDto.getLatitude());
         coordinate.setLongitude(coordinateCreateDto.getLongitude());
         return coordinate;

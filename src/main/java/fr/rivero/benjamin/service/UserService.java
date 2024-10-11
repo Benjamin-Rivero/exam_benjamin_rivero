@@ -1,9 +1,12 @@
 package fr.rivero.benjamin.service;
 
+import fr.rivero.benjamin.custom_response.CustomResponse;
 import fr.rivero.benjamin.dto.UserCreateDto;
+import fr.rivero.benjamin.service.utils.FileUploaderService;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +17,9 @@ import org.springframework.stereotype.Repository;
 
 import fr.rivero.benjamin.entity.User;
 import fr.rivero.benjamin.repository.UserRepository;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -77,4 +82,12 @@ public class UserService implements UserDetailsService {
     }
 
 
+    public CustomResponse<String> uploadAvatar(MultipartFile file, Principal principal) {
+        FileUploaderService fileUploaderService = new FileUploaderService("images/avatars");
+        String location = fileUploaderService.save(file);
+        User user = findByEmail(principal.getName());
+        user.setAvatar(location);
+        userRepository.saveAndFlush(user);
+        return new CustomResponse<>(HttpStatus.OK.value(), location,String.class);
+    }
 }
